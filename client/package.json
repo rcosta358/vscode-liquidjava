@@ -1,7 +1,7 @@
 {
 	"name": "liquid-java",
 	"displayName": "LiquidJava",
-	"description": "LiquidJava - Extending Java with Refinement Types",
+	"description": "LiquidJava - Extending Java with Liquid Types",
 	"version": "0.0.16",
 	"publisher": "AlcidesFonseca",
 	"repository": {
