@@ -80,7 +80,7 @@
 		]
 	},
 	"scripts": {
-		"vscode:prepublish": "tsc",
+		"build": "tsc",
 		"compile": "tsc -watch -p ./",
 		"watch": "tsc -watch -p ./",
 		"lint": "eslint . --ext .ts,.tsx"
