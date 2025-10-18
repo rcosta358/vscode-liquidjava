@@ -2,9 +2,9 @@
 
 ![](https://raw.githubusercontent.com/CatarinaGamboa/liquidjava/refs/heads/main/docs/design/figs/banner.gif)
 
-### Extend your Java code with Refinement Types and catch more bugs!
+### Extend your Java code with Liquid Types and catch bugs earlier!
 
-LiquidJava is an additional type checker for Java, based on liquid types and typestates, which provides additional safety guarantees to Java programs through refinements at compile time. This VS Code extension allows you to use LiquidJava directly, with error diagnostics, syntax highlighting of the refinements and soon more features!
+LiquidJava is an additional type checker for Java, based on **liquid types** and **typestates**, which provides stronger safety guarantees to Java programs at compile-time. With this extension, you can use LiquidJava directly in VS Code, with real-time error diagnostics, syntax highlighting for refinements and more!
 
 ```java
 @Refinement("a > 0")
@@ -12,9 +12,9 @@ int a = 3; // okay
 a = -8; // type error!
 ```
 
-### What are Refinement Types?
+### What are Liquid Types?
 
-Refinement Types extend a language with predicates over the basic types. They allow developers to restrict the values that a variable, parameter or return value can have. These kind of constraints help to catch more bugs before the program is executed, for example array index out of bounds or division by zero.
+Liquid types, or refinement types, extend a language with **logical predicates** over the basic types. They allow developers to restrict the values that a variable, parameter or return value can have. These kinds of constraints help to catch more bugs before the program is executed — for example array index out-of-bounds or division by zero.
 
 ### Usage
 
@@ -34,7 +34,7 @@ int y;
 int z;
 ```
 
-To simplify the usage of refinements, we can create **predicate aliases** using the `@RefinementAlias` annotation, and apply them inside other refinements:
+To simplify the usage of refinements, you can create **predicate aliases** using the `@RefinementAlias` annotation, and apply them inside other refinements:
 
 ```java
 @RefinementAlias("Percentage(int v) { 0 <= v && v <= 100 }")
@@ -72,13 +72,13 @@ public class MyFile {
     public void close() {}
 }
 
-MyFile f = new MyFile(); // f is in state "open"
-f.read(); // okay
-f.close(); // f is now in state "closed"
-f.read(); // type error!
+MyFile f = new MyFile(); // state(f) == "open"
+f.read();  // state(f) == "open" (unchanged)
+f.close(); // state(f) == "closed"
+f.read();  // type error!
 ```
 
-Finally, LiquidJava also provides **ghost variables**, which are used to track additional information about the program state when states aren't enough. Here is an example of a refinement of an external library, which uses the `@ExternalRefinementsFor` annotation and a `size` ghost variable to track the size of a stack:
+Finally, LiquidJava also provides **ghost variables**, which are used to track additional information about the program state when states aren't enough, with the `@Ghost` annotation. Additionally, you can also refine external libraries using the `@ExternalRefinementsFor` annotation. Here is an example of the `java.util.Stack` class refined with LiquidJava, using a `size` ghost variable to track the number of elements in the stack:
 
 ```java
 @ExternalRefinementsFor("java.util.Stack")
@@ -97,17 +97,15 @@ public interface StackRefinements<E> {
 	public E peek();
 }
 
-Stack<Integer> s = new Stack<>(); // size(s) == 0
+Stack<Integer> s = new Stack<>(); // size(s) == 0 (default value)
 s.push(10); // size(s) == 1
-s.pop();  // size(s) == 0
-s.pop();  // type error!
+s.pop(); // size(s) == 0
+s.pop(); // type error!
 
 ```
-You can find more examples of how to use LiquidJava on the [LiquidJava Website](https://catarinagamboa.github.io/liquidjava.html).
 
-### Github Repositories
-
-- [liquidjava](https://github.com/CatarinaGamboa/liquidjava): Main repository with api, verifier and some examples
-- [vscode-liquidjava](https://github.com/CatarinaGamboa/vscode-liquidjava): Visual Studio Code extension for LiquidJava
+You can find more examples of how to use LiquidJava on the [LiquidJava Website](https://catarinagamboa.github.io/liquidjava.html). For more information, check the following repositories:
+- [liquidjava](https://github.com/CatarinaGamboa/liquidjava): Main repository with API, verifier and some examples
+- [vscode-liquidjava](https://github.com/CatarinaGamboa/vscode-liquidjava): Source code of this VS Code extension
 - [liquidjava-examples](https://github.com/CatarinaGamboa/liquidjava-examples): Repository with more usage examples of LiquidJava
 - [liquid-java-external-libs](https://github.com/CatarinaGamboa/liquid-java-external-libs): Examples of how to use LiquidJava with external libraries
