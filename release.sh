@@ -9,8 +9,14 @@ if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
 fi
 
 # check if version present in package.json
-if ! grep -q "\"version\": \"$VERSION\"" package.json; then
+if ! grep -q "\"version\": \"$VERSION\"" ./client/package.json; then
     echo "Version $VERSION not found in package.json"
+    exit 1
+fi
+
+# check if version tag already exists
+if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+    echo "Release $VERSION already exists"
     exit 1
 fi
 
