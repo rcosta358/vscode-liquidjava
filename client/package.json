@@ -7,7 +7,7 @@
 		"url": "https://github.com/CatarinaGamboa/vscode-liquidjava"
 	},
 	"version": "0.0.15",
-	"publisher": "catarinagamboa",
+	"publisher": "AlcidesFonseca",
 	"engines": {
 		"vscode": "^1.70.0"
 	},
