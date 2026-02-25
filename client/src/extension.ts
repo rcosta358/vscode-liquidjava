@@ -7,7 +7,6 @@ import { Trace } from "vscode-jsonrpc";
 import { LanguageClient, LanguageClientOptions, StreamInfo, ServerOptions, State } from "vscode-languageclient";
 
 const SERVER_JAR_FILENAME = "language-server-liquidjava.jar";
-const API_JAR_GLOB = "**/liquidjava-api*.jar";
 
 let serverProcess: child_process.ChildProcess;
 let client: LanguageClient;
@@ -18,14 +17,6 @@ let socket: net.Socket;
  * @param context The extension context
  */
 export async function activate(context: vscode.ExtensionContext) {
-    // only activate if liquidjava api jar is present
-    const jarIsPresent = await isJarPresent();
-    if (!jarIsPresent) {
-        vscode.window.showWarningMessage("LiquidJava API Jar Not Found in Workspace");
-        return;
-    }
-    console.log("Found LiquidJava API in the Workspace - Loading Extension...");
-
     // find java executable path
     const javaExecutablePath = findJavaExecutable("java");
     if (!javaExecutablePath) {
@@ -45,15 +36,6 @@ export async function activate(context: vscode.ExtensionContext) {
  */
 export async function deactivate() {
     await stopServer("extension deactivated");
-}
-
-/**
- * Checks if the extension can be activated by looking for the LiquidJava API jar in the workspace
- * @returns true if the extension can be activated, false otherwise
- */
-async function isJarPresent(): Promise<boolean> {
-    const uris = await vscode.workspace.findFiles(API_JAR_GLOB, null, 100);
-    return uris.length > 0;
 }
 
 /**
