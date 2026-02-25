@@ -25,16 +25,7 @@ if ! grep -q "\"version\": \"$VERSION\"" ./client/package.json; then
     exit 1
 fi
 
-# build server jar
-if [ "$SKIP_SERVER" = false ]; then
-    cd server
-    mvn clean package -DskipTests
-    mkdir -p ../client/server
-    cp target/language-server-liquidjava.jar ../client/server/
-    cd ..
-fi
-
-# build and install vscode extension
+# package and install vscode extension
 cd client
 vsce package
 code --install-extension liquid-java-$VERSION.vsix
